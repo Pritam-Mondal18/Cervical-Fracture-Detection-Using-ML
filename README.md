@@ -1,5 +1,5 @@
 # 🧠 Cervical-Fracture-Detection-Using-ML
-
+![image alt](https://github.com/Pritam-Mondal18/Cervical-Fracture-Detection-Using-ML/blob/9d97ab30b3a5efb1394059c291bd522ca38b5bf6/c98a59c3-af9c-4a90-82b9-967a7427f5f3.jpg)
 ![image alt](https://github.com/Pritam-Mondal18/Cervical-Fracture-Detection-Using-ML/blob/eba0046d1631365e2f70eabb7215da88d4ca4690/3cf1bf2d-bce5-4136-91bc-3691af556a7e.jpg)
 
 ## Overview
@@ -24,7 +24,8 @@
 <ul><li><b>Enhanced Detection:</b> Identifies fractures in cervical bones that CT scans may miss.<br/></li>
 <li><b>Early Diagnosis:</b> Reduces the risk of prolonged undiagnosed conditions, preventing severe health complications.<br/></li>
 <li><b>Edge Detection Technology:</b> Leverages ML to perform precise image analysis for accurate fracture identification.<br/></ul></li>
-This model aims to improve the accuracy of cervical fracture detection, contributing to better patient care and faster recovery.<br/>
+<p>This model aims to improve the accuracy of cervical fracture detection, contributing to better patient care and faster recovery.</p>
+
 ### Technologies Used:
   <ul><li><b>Image Processing:</b> OpenCV,Matplotlib</li>
   <li><b>Libraries: </b>scikit-learn, scikit-image, NumPy, etc.</li>
