@@ -22,7 +22,7 @@
 <ul><li><b>Enhanced Detection:</b> Identifies fractures in cervical bones that CT scans may miss.<br/></li>
 <li><b>Early Diagnosis:</b> Reduces the risk of prolonged undiagnosed conditions, preventing severe health complications.<br/></li>
 <li><b>Edge Detection Technology:</b> Leverages ML to perform precise image analysis for accurate fracture identification.<br/></ul></li>
-This model aims to improve the accuracy of cervical fracture detection, contributing to better patient care and faster recovery.
+This model aims to improve the accuracy of cervical fracture detection, contributing to better patient care and faster recovery.<br/>
 ### Technologies Used
 <ul>
 <!--   <li>Machine Learning Framework: TensorFlow / PyTorch (based on your model choice)</li> -->
