@@ -9,8 +9,24 @@
 <p>Before you begin, make sure you have the following installed on your system:</p>
 <ul><li>Python: <a href="Download Python">Download Python</a></li></ul>
 
-<h3>Key Features:</h3>
+### Installation
+<ul><li><p>Clone or download this project to your local machine.</p></li>
+<li>Open your terminal or command prompt and navigate to the project directory using the cd command</li>
+<li>Install the required libraries and dependencies using pip</li></ul>
+
+### Usage
+<p>Once the project is set up, you can use the ML model to detect cervical fractures in CT scan images using edge detection.</p><br/>
+<p>The model will output whether a fracture is detected in the cervical vertebrae.</p>
+
+### Key Features:
 <ul><li><b>Enhanced Detection:</b> Identifies fractures in cervical bones that CT scans may miss.<br/></li>
 <li><b>Early Diagnosis:</b> Reduces the risk of prolonged undiagnosed conditions, preventing severe health complications.<br/></li>
 <li><b>Edge Detection Technology:</b> Leverages ML to perform precise image analysis for accurate fracture identification.<br/></ul></li>
 This model aims to improve the accuracy of cervical fracture detection, contributing to better patient care and faster recovery.
+### Technologies Used
+<ul>
+<!--   <li>Machine Learning Framework: TensorFlow / PyTorch (based on your model choice)</li> -->
+  <li>Image Processing: OpenCV,Matplotlib</li>
+  <li>Libraries: scikit-learn, scikit-image, NumPy, etc.</li>
+  <li>Edge Detection Algorithms: Sobel,Histogram of Oriented Gradients (HOG)</li>
+</ul>
