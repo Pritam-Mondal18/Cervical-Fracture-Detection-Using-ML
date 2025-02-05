@@ -1,5 +1,7 @@
 # 🧠 Cervical-Fracture-Detection-Using-ML
 
+![image alt](https://github.com/Pritam-Mondal18/Cervical-Fracture-Detection-Using-ML/blob/eba0046d1631365e2f70eabb7215da88d4ca4690/3cf1bf2d-bce5-4136-91bc-3691af556a7e.jpg)
+
 ## Overview
 
 <p>This project focuses on detecting occult fractures in the cervical bones (C5) which is often missed by traditional CT scans. If left undiagnosed, this fracture can lead to serious long-term health issues, including immobility and spinal immobilization. By utilizing machine learning with advanced "Edge Detection" technology, this model provides a solution to accurately detect fractures, ensuring early diagnosis and timely intervention to improve patient outcomes.</p>
