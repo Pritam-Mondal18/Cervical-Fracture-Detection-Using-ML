@@ -23,9 +23,9 @@
 <li><b>Early Diagnosis:</b> Reduces the risk of prolonged undiagnosed conditions, preventing severe health complications.<br/></li>
 <li><b>Edge Detection Technology:</b> Leverages ML to perform precise image analysis for accurate fracture identification.<br/></ul></li>
 This model aims to improve the accuracy of cervical fracture detection, contributing to better patient care and faster recovery.<br/>
-<ul>
+<\ul>
 ### Technologies Used:
-  <li><b>Image Processing:</b> OpenCV,Matplotlib</li>
+  <ul><li><b>Image Processing:</b> OpenCV,Matplotlib</li>
   <li><b>Libraries: </b>scikit-learn, scikit-image, NumPy, etc.</li>
   <li><b>Edge Detection Algorithms:</b> Sobel,Histogram of Oriented Gradients (HOG)</li>
-</ul>
+  </ul>
