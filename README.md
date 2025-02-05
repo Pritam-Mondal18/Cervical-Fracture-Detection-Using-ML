@@ -5,8 +5,9 @@
 <p>This project focuses on detecting occult fractures in the cervical bones (C5) which is often missed by traditional CT scans. If left undiagnosed, this fracture can lead to serious long-term health issues, including immobility and spinal immobilization. By utilizing machine learning with advanced "Edge Detection" technology, this model provides a solution to accurately detect fractures, ensuring early diagnosis and timely intervention to improve patient outcomes.</p>
 
 ## Table of Contents
-###Prerequisites
-
+### Prerequisites
+<p>Before you begin, make sure you have the following installed on your system:</p>
+<ul><li>Python: <a>Download Python</a></li></ul>
 
 <h3>Key Features:</h3>
 <ul><li><b>Enhanced Detection:</b> Identifies fractures in cervical bones that CT scans may miss.<br/></li>
