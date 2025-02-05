@@ -2,79 +2,120 @@ import os
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from skimage.feature import hog
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import GridSearchCV
 
-# 1. Load Dataset (Single Image Handling)
-
-
-def load_image(img_path, label):
-    if not os.path.exists(img_path):
-        print(f"Warning: Image '{img_path}' not found.")
-        return None, None
-
-    img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)  # Load in grayscale
-    if img is not None:
-        img = cv2.resize(img, (128, 128))  # Resize for consistency
-        return img, label
-
-    return None, None
+# Function to load images from a folder with augmentation
 
 
-# Load normal and fractured C5 vertebra images
-normal_img, normal_label = load_image("Pic/normalc5pic1.jpeg", label=0)
-fracture_img, fracture_label = load_image("Pic/C5 fracture1.jpeg", label=1)
-fracture_img, fracture_label = load_image("Pic/C5 fracture2.jpeg", label=1)
-fracture_img, fracture_label = load_image("Pic/C5 fracture3.jpeg", label=1)
+def load_images_from_folder(folder, label):
+    images, labels = [], []
+    if not os.path.exists(folder):
+        print(f"Warning: Folder '{folder}' not found.")
+        return images, labels
+
+    for filename in os.listdir(folder):
+        img_path = os.path.join(folder, filename)
+        img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+        if img is not None:
+            img = cv2.resize(img, (128, 128))
+            images.append(img)
+            labels.append(label)
+
+            # Data augmentation
+            images.append(cv2.flip(img, 1))  # Horizontal flip
+            labels.append(label)
+
+            images.append(cv2.GaussianBlur(img, (5, 5), 0))  # Gaussian Blur
+            labels.append(label)
+    return images, labels
+
+
+# Load training data
+train_normal, train_normal_labels = load_images_from_folder(
+    "cervical fracture/train/normal", label=0)
+train_fracture, train_fracture_labels = load_images_from_folder(
+    "cervical fracture/train/fracture", label=1)
+
+# Load validation data
+val_normal, val_normal_labels = load_images_from_folder(
+    "cervical fracture/val/normal", label=0)
+val_fracture, val_fracture_labels = load_images_from_folder(
+    "cervical fracture/val/fracture", label=1)
+
+# Combine train dataset
+X_train = np.array(train_normal + train_fracture)
+y_train = np.array(train_normal_labels + train_fracture_labels)
+
+# Combine validation dataset
+X_test = np.array(val_normal + val_fracture)
+y_test = np.array(val_normal_labels + val_fracture_labels)
 
 # Check if images were loaded correctly
-if normal_img is None or fracture_img is None:
+if len(X_train) == 0 or len(X_test) == 0:
     raise ValueError(
-        "Error: One or both images were not found. Check file paths.")
+        "Error: No images found in one or both datasets. Check file paths.")
 
-# Combine dataset
-X = np.array([normal_img, fracture_img])
-y = np.array([normal_label, fracture_label])
-
-# 2. Apply Sobel Edge Detection
+# Feature extraction using Sobel and HOG
 
 
-def sobel_features(img):
-    sobelx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=5)  # X-axis edge detection
-    sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=5)  # Y-axis edge detection
-    sobel_combined = cv2.magnitude(sobelx, sobely)  # Magnitude of edges
+def extract_features(img):
+    # Sobel edge detection
+    sobelx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=5)
+    sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=5)
+    sobel_combined = cv2.magnitude(sobelx, sobely)
 
-    # Feature extraction (mean, variance, edge count)
-    mean_val = np.mean(sobel_combined)
-    var_val = np.var(sobel_combined)
-    edge_count = np.sum(sobel_combined > 50)  # Threshold to count edges
+    sobel_features = [np.mean(sobel_combined), np.var(
+        sobel_combined), np.sum(sobel_combined > 50)]
 
-    return [mean_val, var_val, edge_count]
+    # HOG feature extraction
+    hog_features = hog(img, pixels_per_cell=(
+        8, 8), cells_per_block=(2, 2), feature_vector=True)
+
+    return np.hstack((sobel_features, hog_features))
 
 
 # Extract features
-X_features = np.array([sobel_features(img) for img in X])
+X_train_features = np.array([extract_features(img) for img in X_train])
+X_test_features = np.array([extract_features(img) for img in X_test])
 
-# 3. Train-Test Split (Only 2 images, so splitting is unnecessary)
-# Using all data for both
-X_train, X_test, y_train, y_test = X_features, X_features, y, y
+# Standardize the features
+scaler = StandardScaler()
+X_train_features = scaler.fit_transform(X_train_features)
+X_test_features = scaler.transform(X_test_features)
 
-# 4. Train Random Forest Classifier
-rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42)
-rf_classifier.fit(X_train, y_train)
+# Hyperparameter tuning for RandomForest
+param_grid = {
+    'n_estimators': [100, 200, 300],
+    'max_depth': [10, 20, None],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4]
+}
 
-# 5. Predictions & Evaluation
-y_pred = rf_classifier.predict(X_test)
+rf_classifier = RandomForestClassifier(random_state=42)
+grid_search = GridSearchCV(rf_classifier, param_grid,
+                           cv=3, n_jobs=-1, verbose=2)
+grid_search.fit(X_train_features, y_train)
 
-# Accuracy & Metrics
+# Best model training
+best_rf = grid_search.best_estimator_
+best_rf.fit(X_train_features, y_train)
+
+# Make predictions
+y_pred = best_rf.predict(X_test_features)
+
+# Evaluate model
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Model Accuracy: {accuracy * 100:.2f}%")
 print("\nClassification Report:\n", classification_report(y_test, y_pred))
 print("\nConfusion Matrix:\n", confusion_matrix(y_test, y_pred))
 
-# 6. Visualize Sobel Edge Detection Example
-sample_img = X[0]
+# Visualize Sobel Edge Detection on a sample image
+sample_img = X_train[0]
 sobelx = cv2.Sobel(sample_img, cv2.CV_64F, 1, 0, ksize=5)
 sobely = cv2.Sobel(sample_img, cv2.CV_64F, 0, 1, ksize=5)
 sobel_combined = cv2.magnitude(sobelx, sobely)
