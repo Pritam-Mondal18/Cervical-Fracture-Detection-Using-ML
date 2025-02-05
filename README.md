@@ -33,3 +33,5 @@
   <li><b>Libraries: </b>scikit-learn, scikit-image, NumPy, etc.</li>
   <li><b>Edge Detection Algorithms:</b> Sobel,Histogram of Oriented Gradients (HOG)</li>
   </ul>
+
+#AIForHealthcare #MedicalInnovation #ML
