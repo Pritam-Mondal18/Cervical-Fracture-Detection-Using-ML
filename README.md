@@ -7,7 +7,7 @@
 ## Table of Contents
 ### Prerequisites
 <p>Before you begin, make sure you have the following installed on your system:</p>
-<ul><li>Python: <a href="Download Python"></a></li></ul>
+<ul><li>Python: <a href="Download Python">Download Python</a></li></ul>
 
 <h3>Key Features:</h3>
 <ul><li><b>Enhanced Detection:</b> Identifies fractures in cervical bones that CT scans may miss.<br/></li>
